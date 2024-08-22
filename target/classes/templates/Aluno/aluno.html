@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Boletim Escolar - Alunos</title>
+	<link rel="stylesheet" href="/CSS/styles.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+</head>
+
+<body>
+	<header>
+				<h1>Sistema Escolar</h1>
+				<nav>
+					<ul>
+						<li><a th:href="@{/index}">Início</a></li>
+						<li><a th:href="@{/listaAlunos}">Aluno</a></li>
+						<li><a th:href="@{/ListarDiciplinasAluno}">Disciplinas Cursando</a></li>
+						<li><a th:href="@{/listarNotas}">Notas</a></li>
+
+
+
+
+
+					</ul>
+				</nav>
+			</header>
+
+
+	<div th:if="${successMessage}" class="alert alert-success" role="alert">
+		<span th:text="${successMessage}"></span>
+	</div>
+
+
+
+	<div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+		<span th:text="${errorMessage}"></span>
+	</div>
+
+
+	<main>
+
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Matricula</th>
+					<th>Senha</th>
+					<th>Turma</th>
+					
+ 
+
+				</tr>
+			<tbody>
+				<tr th:each="a: ${Alunos}">
+
+					<td th:value="${a.nome}" th:text="${a.nome}"></td>
+					<td th:value="${a.matricula}" th:text="${a.matricula}"></td>
+					<td th:value="${a.senha}" th:text="${a.senha}"></td>
+					<td th:value="${a.turma.nome}" th:text="${a.turma.nome}"></td>
+					
+				</tr>
+
+			</tbody>
+			</thead>
+		</table>
+
+
+
+	</main>
+	<footer>
+		<p>&copy; 2024 Sistema Escolar</p>
+	</footer>
+</body>
+
+</html>

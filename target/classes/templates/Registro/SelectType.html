@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleção de Cargo</title>
+    <link rel="stylesheet" href="/CSS/cargoselect.css">
+	
+</head>
+
+<body>
+	
+
+	
+							<div th:if="${successMessage}" class="alert alert-success" role="alert">
+								<span th:text="${successMessage}"></span>
+							</div>
+
+
+
+							<div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+								<span th:text="${errorMessage}"></span>
+							</div>
+	
+    <div class="container">
+        <h1>Selecione o Cargo</h1>
+        <form th:action="@{/selectAdd}" method="post">
+            <div class="form-group">
+                <label for="cargo">Cargo:</label>
+                <select id="cargo" name="cargo" required>
+                    <option value="" disabled selected>Selecione o Tipo</option>
+                    <option th:each=" b:${Abrangencias}" th:value="${b.Abrangencia}" th:text="${b.Abrangencia}"></option>
+                </select>
+				
+            </div>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</body>
+</html>

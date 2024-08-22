@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sistema de Boletim Escolar</title>
+	<link rel="stylesheet" href="/CSS/styles.css">
+</head>
+
+<body>
+	<header>
+		<h1>Boletim Escolar</h1>
+		<nav>
+			<ul>
+				<li><a th:href="@{/index}">Início</a></li>
+				<li><a th:href="@{/listaAlunos}">Aluno</a></li>
+				<li><a th:href="@{/ListarDiciplinasAluno}">Disciplinas Cursando</a></li>
+				<li><a th:href="@{/listarNotas}">Notas</a></li>
+
+
+
+
+
+			</ul>
+		</nav>
+	</header>
+
+
+	<div th:if="${successMessage}" class="alert alert-success" role="alert">
+		<span th:text="${successMessage}"></span>
+	</div>
+
+
+
+	<div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+		<span th:text="${errorMessage}"></span>
+	</div>
+
+
+
+
+
+	<main>
+		<section class="hero">
+			<h2>Bem-vindo ao Sistema de Boletim Escolar!</h2>
+			<p>Gerencie alunos, professores, disciplinas e notas de forma eficiente.</p>
+		</section>
+	</main>
+	<footer>
+		<p>&copy; 2024 Boletim Escolar</p>
+	</footer>
+</body>
+
+</html>

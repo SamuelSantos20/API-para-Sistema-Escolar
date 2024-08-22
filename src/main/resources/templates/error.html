@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Erro - Algo deu errado!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8d7da;
+            color: #721c24;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            font-size: 50px;
+        }
+        p {
+            font-size: 18px;
+        }
+        .error-details {
+            margin-top: 30px;
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ops! Algo deu errado.</h1>
+    <p>Desculpe, ocorreu um erro inesperado.</p>
+    <div class="error-details">
+        <p th:text="'Código do Erro: ' + ${statusCode}"></p>
+        <p th:text="'Mensagem de Erro: ' + ${errorMessage}"></p>
+    </div>
+    <p><a  th:href="@{/index}">Voltar para a página inicial</a></p>
+</body>
+</html>
