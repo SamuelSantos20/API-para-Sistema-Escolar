@@ -20,8 +20,8 @@ public class NotaImpl extends AbstractDao<Nota,Long > implements NotaDao{
 	
 	public List<Nota> NotasAluno(Long id) {
 	    try {
-	        // Corrigido para usar a entidade Nota diretamente
-	        String jpql = "SELECT n FROM Nota n WHERE n.aluno_id.id = :id";
+	        // Corrigido para usar a entidade Nota diretamente com JOIN FETCH para evitar N+1 queries
+	        String jpql = "SELECT n FROM Nota n JOIN FETCH n.aluno_id JOIN FETCH n.diciplina_id WHERE n.aluno_id.id = :id";
 	        Query query = entityManager.createQuery(jpql);
 	        query.setParameter("id", id);
 
