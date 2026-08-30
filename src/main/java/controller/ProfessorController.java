@@ -1,7 +1,7 @@
 package controller;
 
-
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +26,8 @@ import util.GeradordeRelatorio;
 //BASICAS como matricula , turma e nome , assim como editar a nota do aluno . podendo tabem consultar suas proprias informações 
 @Controller
 public class ProfessorController {
+
+	private static final Logger logger = LoggerFactory.getLogger(ProfessorController.class);
 
 	//injeções de dependencias para acessar o sistema do banco de dados 
 	@Autowired
@@ -71,7 +73,7 @@ public class ProfessorController {
 			}
 
 		} catch (Exception e) {
-
+			logger.error("Erro ao solicitar adicao de nota: {}", e.getMessage(), e);
 			mv.setViewName("redirect:/error");
 			return mv;
 
@@ -98,6 +100,7 @@ public class ProfessorController {
 			return mv;
 
 		} catch (Exception e) {
+			logger.error("Erro ao buscar aluno: {}", e.getMessage(), e);
 			mv.setViewName("redirect:/error");
 			return mv;
 		}
@@ -122,6 +125,7 @@ public class ProfessorController {
 			return mv;
 
 		} catch (Exception e) {
+			logger.error("Erro ao pesquisar materia: {}", e.getMessage(), e);
 			mv.setViewName("redirect:/error");
 			return mv;
 		}
@@ -166,7 +170,7 @@ public class ProfessorController {
 			}
 
 		} catch (Exception e) {
-
+			logger.error("Erro ao adicionar nota: {}", e.getMessage(), e);
 			mv.setViewName("redirect:/error");
 			return mv;
 
@@ -183,6 +187,7 @@ public class ProfessorController {
 			return mv;
 
 		} catch (Exception e) {
+			logger.error("Erro ao carregar relatorio: {}", e.getMessage(), e);
 			mv.setViewName("redirect:/error");
 			return mv;
 		}
@@ -201,7 +206,7 @@ public class ProfessorController {
 			return mv;
 
 		} catch (Exception e) {
-			System.out.println(e);
+			logger.error("Erro ao pesquisar aluno: {}", e.getMessage(), e);
 			mv.setViewName("redirect:/error");
 			return mv;
 		}
@@ -244,6 +249,7 @@ public class ProfessorController {
 
 			return mv;
 		} catch (Exception e) {
+			logger.error("Erro ao listar professores: {}", e.getMessage(), e);
 			mv.setViewName("redirect:/error");
 			return mv;
 		}
@@ -255,8 +261,7 @@ public class ProfessorController {
 		ModelAndView mv = new ModelAndView();
 		session.setAttribute("id_aluno_nota", id);
 		session.setAttribute("id_diciplina_nota", diciplina);
-		System.out.println(diciplina);
-		System.out.println(diciplinaImplService.PesquisarDiciplinasId(diciplina));
+		logger.debug("Pre-editar nota para diciplina ID: {}", diciplina);
 		try {
 			if (notaImplService.ListarIdAluno(id).orElse(new Nota()) != null) {
 				Nota notas = notaImplService.ListarIdAluno(id).orElse(new Nota());
@@ -278,8 +283,7 @@ public class ProfessorController {
 
 			}
 		} catch (Exception e) {
-
-			System.out.println(e);
+			logger.error("Erro ao preparar edicao de nota: {}", e.getMessage(), e);
 			mv.setViewName("redirect:/error");
 			return mv;
 		}
@@ -314,7 +318,7 @@ public class ProfessorController {
 			mv.setViewName("Notas/adicionar-notas.html");
 			return mv;
 		} catch (Exception e) {
-			System.out.println(e);
+			logger.error("Erro ao editar nota: {}", e.getMessage(), e);
 			mv.setViewName("redirect:/error");
 			return mv;
 		}
@@ -327,15 +331,14 @@ public class ProfessorController {
 
 		try {
 
-			System.out.println(id);
-			System.out.println(notaImplService.ListarImpressaoNotaAluno(id));
+			logger.debug("Verificando notas do aluno com ID: {}", id);
 			
 			mv.addObject("Notas", notaImplService.ListarImpressaoNotaAluno(id));
 			mv.setViewName("Professor/verificarnotas-alunos.html");
 			return mv;
 			
 		} catch (Exception e) {
-			System.out.println(e);
+			logger.error("Erro ao verificar notas do aluno: {}", e.getMessage(), e);
 			mv.setViewName("redirect:/error");
 			return mv;
 			
