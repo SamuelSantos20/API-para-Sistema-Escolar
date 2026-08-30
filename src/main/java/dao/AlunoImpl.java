@@ -17,6 +17,12 @@ public class AlunoImpl extends AbstractDao<Aluno, Long> implements AlunoDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	@Override
+	public List<Aluno> findAllWithTurma() {
+		String jpql = "select a from Aluno a left join fetch a.turmaId";
+		return entityManager.createQuery(jpql, Aluno.class).getResultList();
+	}
+
 	public Optional<Aluno> findByMatriculaAndSenha(String matricula, String senha) {
 		String jpql = "select m from Aluno m where m.matricula = :matricula and m.senha = :senha";
 		Query query = entityManager.createQuery(jpql);

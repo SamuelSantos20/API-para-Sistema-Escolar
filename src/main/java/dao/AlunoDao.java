@@ -17,6 +17,8 @@ public interface AlunoDao {
 
 	List<Aluno> findAll();
 
+	List<Aluno> findAllWithTurma();
+
 	 public Optional<Aluno> findByMatriculaAndSenha(String matricula, String senha);
 
 	 public List<Aluno> ListarAluno(Long id);
