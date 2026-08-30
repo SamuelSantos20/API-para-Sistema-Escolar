@@ -1,5 +1,7 @@
 package controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,8 @@ import util.GeradordeCodigo;
 
 @Controller
 public class TurmaController {
+
+	private static final Logger logger = LoggerFactory.getLogger(TurmaController.class);
 
 	//injeções de dependencia que permitem o acesso ao banco de dados 
 	@Autowired
@@ -93,7 +97,7 @@ public class TurmaController {
 			}
 
 		} catch (Exception e) {
-			System.out.println(e);
+			logger.error("Erro ao adicionar turma", e);
 			mv.setViewName("redirect:/error");
 			return mv;
 
@@ -113,7 +117,7 @@ public class TurmaController {
 
 		} catch (Exception e) {
 			mv.setViewName("redirect:/error");
-			System.out.println(e);
+			logger.error("Erro ao listar disciplinas do aluno", e);
 			return mv;
 		}
 
@@ -130,9 +134,8 @@ public class TurmaController {
 			mv.setViewName("Turma/Turmas.html");
 			return mv;
 		} catch (Exception e) {
-			System.out.println(e);
+			logger.error("Erro ao listar turmas", e);
 			mv.setViewName("redirect:/error");
-			System.out.println(e);
 			return mv;
 		}
 	}
@@ -141,13 +144,13 @@ public class TurmaController {
 	public ModelAndView ListarTurmaAlunos(@RequestParam("id") Long id) {
 		ModelAndView mv = new ModelAndView();
 		try {
-			System.out.println(id);
+			logger.debug("Buscando alunos da turma id: {}", id);
 			mv.addObject("Alunos", turmaImplService.getDiciplina_TurmaID(id));
 			mv.setViewName("Turma/turma-alunos.html");
 			return mv;
 		} catch (Exception e) {
 			mv.setViewName("redirect:/error");
-			System.out.println(e);
+			logger.error("Erro ao listar alunos da turma", e);
 			return mv;
 		}
 
@@ -158,15 +161,14 @@ public class TurmaController {
 	public ModelAndView pesquisaporTurmas(@RequestParam("texto") String texto) {
 	ModelAndView mv = new ModelAndView();
 		try {
-		System.out.println(turmaImplService.pesquisarTurmas(texto));
+		logger.debug("Pesquisando turmas com texto: {}", texto);
 		mv.addObject("Turmas", turmaImplService.pesquisarTurmas(texto));
 		mv.addObject("Turma", new Turma());
 		mv.setViewName("Turma/Turmas.html");
 		return mv;
 	} catch (Exception e) {
-		System.out.println(e);
+		logger.error("Erro ao pesquisar turmas com texto: {}", texto, e);
 		mv.setViewName("redirect:/error");
-		System.out.println(e);
 		return mv;
 	}
 }
