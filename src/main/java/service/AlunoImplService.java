@@ -64,12 +64,12 @@ public class AlunoImplService implements AlunoDaoService {
 // lista completa de todos alunos que tem no sistema 
 	public List<AlunoDto> ListaCompleta() {
 
-		List<Aluno> alunos = alunoDao.findAll();
+		List<Aluno> alunos = alunoDao.findAllWithTurma();
 
 		return alunos.stream().map(aluno -> new AlunoDto(aluno.getNome(), aluno.getMatricula(),
 				aluno.getDataNascimento(), aluno.getSenha(), aluno.getTurmaId()
 
-		)).collect(Collectors.toSet()).stream().collect(Collectors.toList());
+		)).collect(Collectors.toList());
 	}
 // lista as informções de um unico aluno (utilizada apenas para acesso de aluno)
 	public List<AlunoDto> ListaUnica(Long id) {
