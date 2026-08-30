@@ -18,6 +18,8 @@ public interface NotaDao {
 	Nota findById(Long id);
 
 	List<Nota> findAll();
+
+	List<Nota> findAllWithAlunoAndDiciplina();
 	
 	List<Nota> NotasAluno(Long id);
 	

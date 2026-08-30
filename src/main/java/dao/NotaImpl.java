@@ -18,6 +18,16 @@ public class NotaImpl extends AbstractDao<Nota,Long > implements NotaDao{
 	@PersistenceContext 
 	private EntityManager entityManager;
 	
+	public List<Nota> findAllWithAlunoAndDiciplina() {
+		try {
+			String jpql = "SELECT n FROM Nota n JOIN FETCH n.aluno_id JOIN FETCH n.diciplina_id";
+			Query query = entityManager.createQuery(jpql);
+			return query.getResultList();
+		} catch (Exception e) {
+			return new ArrayList<>();
+		}
+	}
+
 	public List<Nota> NotasAluno(Long id) {
 	    try {
 	        // Corrigido para usar a entidade Nota diretamente

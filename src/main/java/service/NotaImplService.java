@@ -57,7 +57,7 @@ public class NotaImplService implements NotaDaoService {
 	//metodo que faz a listagem de todas as notas de todos os alunos cadastrados no sistema  
 	public List<NotaDto> ListarRelatorio(){
 		
-		List<Nota> list = notaDao.findAll();
+		List<Nota> list = notaDao.findAllWithAlunoAndDiciplina();
 		
 		return list.stream().map(notas -> new NotaDto(notas.getMedia(),notas.getAluno_id().getNome(), notas.getDiciplina_id().getNome(), notas.getNota_trabalho(), notas.getNota_Teste(),
 				notas.getNota_prova())).collect(Collectors.toList());
