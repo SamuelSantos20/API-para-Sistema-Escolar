@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,17 +16,29 @@ import domain.Administrador;
 @Transactional(readOnly = false)
 public class AdministradorImplService implements AdministradorDaoService {
 
+	private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 	@Autowired
 	private AdministradorDao administradorDao;
 
+	private boolean isAlreadyHashed(String senha) {
+		return senha.startsWith("$2a$") || senha.startsWith("$2b$") || senha.startsWith("$2y$");
+	}
+
 	@Override
 	public void Salvar(Administrador administrador) {
+		if (administrador.getSenha() != null && !isAlreadyHashed(administrador.getSenha())) {
+			administrador.setSenha(passwordEncoder.encode(administrador.getSenha()));
+		}
 		administradorDao.save(administrador);
 
 	}
 
 	@Override
 	public void Atualizar(Administrador administrador) {
+		if (administrador.getSenha() != null && !isAlreadyHashed(administrador.getSenha())) {
+			administrador.setSenha(passwordEncoder.encode(administrador.getSenha()));
+		}
 		administradorDao.update(administrador);
 	}
 

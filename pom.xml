@@ -92,9 +92,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.example.TooDevs.br</groupId>
-			<artifactId>Biblioteca_Pessoal</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
 		</dependency>
 	</dependencies>
 
