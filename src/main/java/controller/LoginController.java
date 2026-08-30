@@ -60,9 +60,6 @@ public class LoginController {
 
 			Abrangencia abrangencia = (Abrangencia) session.getAttribute("abrangencia");
 
-			System.out.println(senha);
-			System.out.println(matricula);
-
 			if (abrangencia == null) {
 				md.addObject("errorMessage", "Abrangência não definida!");
 				return md;
