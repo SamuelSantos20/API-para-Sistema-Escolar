@@ -27,7 +27,7 @@ public class Administradorimpl extends AbstractDao<Administrador, Long> implemen
 	    List<Administrador> result = query.getResultList();
 	    
 	    if (result.isEmpty()) {
-	        return null;
+	        return Optional.empty();
 	    } else {
 	        return Optional.of(result.get(0));
 	    }
