@@ -25,7 +25,7 @@ public class AlunoImpl extends AbstractDao<Aluno, Long> implements AlunoDao {
 		List<Aluno> result = query.getResultList();
 
 		if (result.isEmpty()) {
-			return null;
+			return Optional.empty();
 		} else {
 			return Optional.of(result.get(0));
 		}
