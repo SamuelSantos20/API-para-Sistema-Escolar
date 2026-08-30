@@ -3,6 +3,8 @@ package util;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.itextpdf.text.Document;
@@ -17,11 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Service
 public class GeradordeRelatorio {
 
-	
-
-	
-	
-
+	private static final Logger logger = LoggerFactory.getLogger(GeradordeRelatorio.class);
 
 	public void gerarRelatoriocontato(HttpServletResponse response ,   List<NotaDto> listagem) {
 
@@ -77,7 +75,7 @@ public class GeradordeRelatorio {
 	        documento.add(tabela);
 
 	    } catch (Exception e) {
-	        e.printStackTrace();
+	        logger.error("Erro ao gerar relatório PDF", e);
 	    } finally {
 	        // Fechando o documento
 	        documento.close();
