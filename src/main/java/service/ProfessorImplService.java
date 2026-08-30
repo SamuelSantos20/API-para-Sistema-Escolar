@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,18 +19,29 @@ import domain.Professor;
 @Transactional(readOnly = false)
 public class ProfessorImplService implements ProfessorDaoService {
 
+	private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 	@Autowired
 	private ProfessorDao professorDao;
 
+	private boolean isAlreadyHashed(String senha) {
+		return senha.startsWith("$2a$") || senha.startsWith("$2b$") || senha.startsWith("$2y$");
+	}
+
 	@Override
 	public void Salvar(Professor professor) {
-		
+		if (professor.getSenha() != null && !isAlreadyHashed(professor.getSenha())) {
+			professor.setSenha(passwordEncoder.encode(professor.getSenha()));
+		}
 		professorDao.save(professor);
 	}
 
 	@Override
 	public void Atualizar(Professor professo) {
-	professorDao.update(professo);
+		if (professo.getSenha() != null && !isAlreadyHashed(professo.getSenha())) {
+			professo.setSenha(passwordEncoder.encode(professo.getSenha()));
+		}
+		professorDao.update(professo);
 		
 	}
 

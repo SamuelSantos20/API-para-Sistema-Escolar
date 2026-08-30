@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,17 +18,29 @@ import domain.Aluno;
 @Transactional(readOnly = false)
 public class AlunoImplService implements AlunoDaoService {
 
+	private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 	@Autowired
 	private AlunoDao alunoDao;
 
+	private boolean isAlreadyHashed(String senha) {
+		return senha.startsWith("$2a$") || senha.startsWith("$2b$") || senha.startsWith("$2y$");
+	}
+
 	@Override
 	public void Salvar(Aluno aluno) {
+		if (aluno.getSenha() != null && !isAlreadyHashed(aluno.getSenha())) {
+			aluno.setSenha(passwordEncoder.encode(aluno.getSenha()));
+		}
 		alunoDao.save(aluno);
 
 	}
 
 	@Override
 	public void Atualizar(Aluno aluno) {
+		if (aluno.getSenha() != null && !isAlreadyHashed(aluno.getSenha())) {
+			aluno.setSenha(passwordEncoder.encode(aluno.getSenha()));
+		}
 		alunoDao.update(aluno);
 	}
 

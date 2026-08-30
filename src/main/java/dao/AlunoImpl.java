@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import domain.Aluno;
@@ -14,20 +16,26 @@ import jakarta.persistence.Query;
 @Repository
 public class AlunoImpl extends AbstractDao<Aluno, Long> implements AlunoDao {
 
+	private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	public Optional<Aluno> findByMatriculaAndSenha(String matricula, String senha) {
-		String jpql = "select m from Aluno m where m.matricula = :matricula and m.senha = :senha";
+		String jpql = "select m from Aluno m where m.matricula = :matricula";
 		Query query = entityManager.createQuery(jpql);
 		query.setParameter("matricula", matricula);
-		query.setParameter("senha", senha);
 		List<Aluno> result = query.getResultList();
 
 		if (result.isEmpty()) {
 			return null;
 		} else {
-			return Optional.of(result.get(0));
+			Aluno aluno = result.get(0);
+			if (aluno.getSenha() != null && passwordEncoder.matches(senha, aluno.getSenha())) {
+				return Optional.of(aluno);
+			} else {
+				return null;
+			}
 		}
 	}
 
