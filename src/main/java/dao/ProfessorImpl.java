@@ -25,7 +25,7 @@ public class ProfessorImpl extends AbstractDao<Professor, Long>  implements Prof
 	    List<Professor> result = query.getResultList();
 	    
 	    if (result.isEmpty()) {
-	        return null;
+	        return Optional.empty();
 	    } else {
 	        return Optional.of(result.get(0));
 	    }
