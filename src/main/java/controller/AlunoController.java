@@ -1,5 +1,7 @@
 package controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 // o aluno possui acesso somente a coisas basicas do sistema que envolvem eles mesmos 
 @Controller
 public class AlunoController {
+
+	private static final Logger logger = LoggerFactory.getLogger(AlunoController.class);
 
 	//injeções para aceassar o banco de dados 
 	@Autowired
@@ -40,7 +44,7 @@ public class AlunoController {
 			return mv;
 
 		} catch (Exception e) {
-			System.out.println(e);
+			logger.error("Erro ao listar informações do aluno: ", e);
 			mv.setViewName("redirect:/error");
 			return mv;
 		}
@@ -51,15 +55,14 @@ public class AlunoController {
 		ModelAndView mv = new ModelAndView();
 		try {
 			Long id = (Long) session.getAttribute("aluno");
-			System.out.println(id);
-			System.out.println(notaImplService.ListarImpressaoNotaAluno(id));
+			logger.debug("Listando notas do aluno com ID: {}", id);
 			
 			mv.addObject("Notas", notaImplService.ListarImpressaoNotaAluno(id));
 			mv.setViewName("Notas/notas.html");
 			return mv;
 		} catch (Exception e) {
+			logger.error("Erro ao listar notas do aluno: ", e);
 			mv.setViewName("redirect:/error");
-			System.out.println(e);
 			return mv;
 		}
 
@@ -75,9 +78,8 @@ public class AlunoController {
 			mv.addObject("Alunos", alunoImplService.ListaCompleta());
 			return mv;
 		} catch (Exception e) {
-		
+			logger.error("Erro ao listar todos os alunos: ", e);
 			mv.setViewName("redirect:/error");
-			System.out.println(e);
 			return mv;
 		}
 		
@@ -90,7 +92,7 @@ public class AlunoController {
 	@GetMapping("/ImprimirNota")
 	public void ImpressaodeNota(HttpSession session , HttpServletResponse response) {
 		Long id = (Long) session.getAttribute("aluno");
-		System.out.println(notaImplService.ListarImpressaoNotaAluno(id));
+		logger.debug("Imprimindo nota do aluno com ID: {}", id);
 		geradordeRelatorio.gerarRelatoriocontato(response, notaImplService.ListarImpressaoNotaAluno(id));
 		
 	}
@@ -103,8 +105,8 @@ public class AlunoController {
 			mv.addObject("Alunos", alunoImplService.PesquisaDto(texto));
 			return mv;
 		} catch (Exception e) {
+			logger.error("Erro ao pesquisar alunos: ", e);
 			mv.setViewName("redirect:/error");
-			System.out.println(e);
 			return mv;
 		}
 		
