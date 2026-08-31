@@ -235,7 +235,6 @@ public class AdmController {
 		System.out.println("turma: " + id_turma);
 		System.out.println("sufixo: " + sufixo);
 		System.out.println("matricula: " + matricula);
-		System.out.println("senha: " + senha);
 		System.out.println("data_nascimento: " + data);
 		System.out.println("nome: " + nome);
 
