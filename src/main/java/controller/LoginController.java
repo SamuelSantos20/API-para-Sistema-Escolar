@@ -76,14 +76,14 @@ public class LoginController {
     
 			switch (abrangencia) {
 			case ADM:
-				ADM = administradorImplService.BuscarPorMatriculaeSenha(matricula, senha) != null;
+				ADM = administradorImplService.BuscarPorMatriculaeSenha(matricula, senha).isPresent();
 				break;
 			case ALUNO:
-				ALUNO = alunoImplService.BuscarPorMatriculaeSenha(matricula, senha) != null;
+				ALUNO = alunoImplService.BuscarPorMatriculaeSenha(matricula, senha).isPresent();
 				break;
 			case PROFESSOR:
 			
-				PROFESSOR = professorImplService.BuscarPorMatriculaeSenha(matricula, senha) != null;
+				PROFESSOR = professorImplService.BuscarPorMatriculaeSenha(matricula, senha).isPresent();
 				break;
 			default:
 				md.addObject("errorMessage", "Abrangência desconhecida!");
