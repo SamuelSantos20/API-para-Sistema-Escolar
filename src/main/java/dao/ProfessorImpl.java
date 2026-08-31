@@ -17,6 +17,13 @@ public class ProfessorImpl extends AbstractDao<Professor, Long>  implements Prof
 	private EntityManager entityManager;
 	
 
+	@Override
+	public List<Professor> findAll() {
+		return entityManager
+				.createQuery("select distinct p from Professor p left join fetch p.diciplinas", Professor.class)
+				.getResultList();
+	}
+
 	public Optional<Professor> findByMatriculaAndSenha(String matricula, String senha) {
 	    String jpql = "select p from Professor p where p.matricula = :matricula and p.senha = :senha";
 	    Query query = entityManager.createQuery(jpql);
